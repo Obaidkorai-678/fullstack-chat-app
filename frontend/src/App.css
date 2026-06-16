@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide Edge/IE password reveal button */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Some Edge versions */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
