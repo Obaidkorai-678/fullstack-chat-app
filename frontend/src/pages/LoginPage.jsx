@@ -27,27 +27,20 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:grid lg:grid-cols-2 bg-base-200">
-
+    <div className="grid min-h-screen lg:grid-cols-2">
       {/* LEFT - FORM */}
-      <div className="flex items-center justify-center px-4 py-10 sm:px-8 lg:px-12">
+      <div className="flex items-center justify-center px-4 py-16 sm:px-8 lg:px-12">
         <div className="w-full max-w-md">
-
-          {/* CARD */}
-          <div className="bg-base-100 shadow-xl rounded-2xl p-6 sm:p-8 border border-base-300">
-
+          <div className="panel rounded-4xl p-6 sm:p-8">
             {/* HEADER */}
-            <div className="text-center mb-8">
+            <div className="mb-8 text-center">
               <div className="flex flex-col items-center gap-3">
-
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <MessageSquare className="w-7 h-7 text-primary" />
+                <div className="grid size-14 place-items-center rounded-3xl bg-primary/15 ring-1 ring-primary/20">
+                  <MessageSquare className="size-7 text-primary" />
                 </div>
-
-                <h1 className="text-2xl sm:text-3xl font-bold">
-                  Welcome Back
+                <h1 className="font-display text-3xl font-extrabold">
+                  Welcome back
                 </h1>
-
                 <p className="text-sm text-base-content/60">
                   Sign in to continue your conversations
                 </p>
@@ -56,19 +49,14 @@ const LoginPage = () => {
 
             {/* FORM */}
             <form onSubmit={handleSubmit} className="space-y-5">
-
               {/* EMAIL */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Email</span>
-                </label>
-
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/40" />
-
+                  <Mail className="absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-base-content/40" />
                   <input
                     type="email"
-                    className="input input-bordered w-full pl-10 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="w-full rounded-2xl border border-base-content/10 bg-base-200/60 py-3 pl-11 pr-3 text-sm outline-none transition-all focus:border-primary/50 focus:bg-base-100 focus:ring-2 focus:ring-primary/20"
                     placeholder="you@example.com"
                     value={formData.email}
                     onChange={(e) =>
@@ -79,33 +67,28 @@ const LoginPage = () => {
               </div>
 
               {/* PASSWORD */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Password</span>
-                </label>
-
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/40" />
-
+                  <Lock className="absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-base-content/40" />
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="input input-bordered w-full pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="w-full rounded-2xl border border-base-content/10 bg-base-200/60 py-3 pl-11 pr-11 text-sm outline-none transition-all focus:border-primary/50 focus:bg-base-100 focus:ring-2 focus:ring-primary/20"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
                   />
-
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-base-content/40" />
+                      <EyeOff className="size-5" />
                     ) : (
-                      <Eye className="h-5 w-5 text-base-content/40" />
+                      <Eye className="size-5" />
                     )}
                   </button>
                 </div>
@@ -115,12 +98,12 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="btn btn-primary w-full rounded-xl"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3 font-semibold text-primary-content shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-primary/40 disabled:opacity-60"
               >
                 {isLoggingIn ? (
                   <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Signing in...
+                    <Loader2 className="size-5 animate-spin" />
+                    Signing in…
                   </>
                 ) : (
                   "Sign in"
@@ -129,9 +112,12 @@ const LoginPage = () => {
             </form>
 
             {/* FOOTER */}
-            <p className="text-center text-sm text-base-content/60 mt-6">
+            <p className="mt-6 text-center text-sm text-base-content/60">
               Don&apos;t have an account?{" "}
-              <Link to="/signup" className="link link-primary font-medium">
+              <Link
+                to="/signup"
+                className="font-semibold text-primary hover:underline"
+              >
                 Create account
               </Link>
             </p>
@@ -140,12 +126,10 @@ const LoginPage = () => {
       </div>
 
       {/* RIGHT SIDE (ONLY DESKTOP) */}
-      <div className="hidden lg:flex">
-        <AuthImagePattern
-          title="Welcome back!"
-          subtitle="Sign in to continue your conversations and catch up with your messages."
-        />
-      </div>
+      <AuthImagePattern
+        title="Welcome back!"
+        subtitle="Sign in to continue your conversations and catch up with your messages."
+      />
     </div>
   );
 };

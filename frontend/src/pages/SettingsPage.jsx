@@ -1,61 +1,73 @@
 import { THEMES } from "../constants";
 import { useThemeStore } from "../store/useThemeStore";
+import { Check, Palette } from "lucide-react";
 import toast from "react-hot-toast";
 
 const SettingsPage = () => {
   const { theme, setTheme } = useThemeStore();
 
   return (
-    <div className="h-screen container mx-auto px-4 pt-20 max-w-5xl">
-      <div className="space-y-6">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-lg font-semibold">Theme</h2>
-          <p className="text-sm text-base-content/70">
-            Choose a theme for your chat interface
-          </p>
+    <div className="mx-auto max-w-5xl px-4 pb-16 pt-24">
+      <div className="panel rounded-4xl p-6 sm:p-8">
+        {/* Header */}
+        <div className="mb-8 flex items-center gap-3">
+          <div className="grid size-11 place-items-center rounded-2xl bg-primary/15">
+            <Palette className="size-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-extrabold">Appearance</h2>
+            <p className="text-sm text-base-content/60">
+              Choose a theme for your chat interface
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-          {THEMES.map((t) => (
-            <button
-              key={t}
-              onClick={() => {
-                setTheme(t);
-                toast.success(`${t} theme selected`, {
-                  duration: 1500,
-                });
-              }}
-              className={`
-                group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors
-                ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}
-              `}
-            >
-              {/* Preview box */}
-              <div
-                className="relative h-8 w-full rounded-md overflow-hidden"
-                data-theme={t}
+        {/* Theme grid */}
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+          {THEMES.map((t) => {
+            const isActive = theme === t;
+            return (
+              <button
+                key={t}
+                onClick={() => {
+                  setTheme(t);
+                  toast.success(`${t} theme selected`, { duration: 1500 });
+                }}
+                className={`group relative flex flex-col gap-2 rounded-2xl border p-2.5 text-left transition-all lift ${
+                  isActive
+                    ? "border-primary/50 ring-2 ring-primary/25"
+                    : "border-base-content/10 hover:border-base-content/25"
+                }`}
               >
-                <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
-                  <div className="rounded bg-primary"></div>
-                  <div className="rounded bg-secondary"></div>
-                  <div className="rounded bg-accent"></div>
-                  <div className="rounded bg-neutral"></div>
+                {/* Preview */}
+                <div
+                  className="relative h-12 w-full overflow-hidden rounded-xl"
+                  data-theme={t}
+                >
+                  <div className="grid h-full grid-cols-4 gap-1 bg-base-100 p-1.5">
+                    <div className="rounded-md bg-primary" />
+                    <div className="rounded-md bg-secondary" />
+                    <div className="rounded-md bg-accent" />
+                    <div className="rounded-md bg-neutral" />
+                  </div>
+                  {isActive && (
+                    <div className="absolute right-1 top-1 grid size-5 place-items-center rounded-full bg-primary text-primary-content shadow">
+                      <Check className="size-3" />
+                    </div>
+                  )}
                 </div>
-              </div>
 
-              {/* Theme name */}
-              <span className="text-[11px] font-medium truncate w-full text-center">
-                {t.charAt(0).toUpperCase() + t.slice(1)}
-              </span>
-
-              {/* SELECTED LABEL (THIS IS WHERE IT GOES) */}
-              {theme === t && (
-                <span className="text-[10px] text-success">
-                  Selected
+                {/* Name */}
+                <span
+                  className={`truncate text-center text-[11px] font-medium ${
+                    isActive ? "text-primary" : "text-base-content/70"
+                  }`}
+                >
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
                 </span>
-              )}
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import {
@@ -42,26 +41,20 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:grid lg:grid-cols-2 bg-base-200">
-
+    <div className="grid min-h-screen lg:grid-cols-2">
       {/* LEFT - FORM */}
-      <div className="flex items-center justify-center px-4 py-10 sm:px-8 lg:px-12">
+      <div className="flex items-center justify-center px-4 py-16 sm:px-8 lg:px-12">
         <div className="w-full max-w-md">
-
-          {/* CARD */}
-          <div className="bg-base-100 shadow-xl rounded-2xl p-6 sm:p-8 border border-base-300">
-
+          <div className="panel rounded-4xl p-6 sm:p-8">
             {/* HEADER */}
-            <div className="text-center mb-8">
+            <div className="mb-8 text-center">
               <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <MessageSquare className="w-7 h-7 text-primary" />
+                <div className="grid size-14 place-items-center rounded-3xl bg-primary/15 ring-1 ring-primary/20">
+                  <MessageSquare className="size-7 text-primary" />
                 </div>
-
-                <h1 className="text-2xl sm:text-3xl font-bold">
-                  Create Account
+                <h1 className="font-display text-3xl font-extrabold">
+                  Create account
                 </h1>
-
                 <p className="text-sm text-base-content/60">
                   Get started with your free account
                 </p>
@@ -70,19 +63,14 @@ const SignUpPage = () => {
 
             {/* FORM */}
             <form onSubmit={handleSubmit} className="space-y-5">
-
               {/* FULL NAME */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Full Name</span>
-                </label>
-
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">Full Name</label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/40" />
-
+                  <User className="absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-base-content/40" />
                   <input
                     type="text"
-                    className="input input-bordered w-full pl-10 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="w-full rounded-2xl border border-base-content/10 bg-base-200/60 py-3 pl-11 pr-3 text-sm outline-none transition-all focus:border-primary/50 focus:bg-base-100 focus:ring-2 focus:ring-primary/20"
                     placeholder="John Doe"
                     value={formData.fullName}
                     onChange={(e) =>
@@ -93,17 +81,13 @@ const SignUpPage = () => {
               </div>
 
               {/* EMAIL */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Email</span>
-                </label>
-
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/40" />
-
+                  <Mail className="absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-base-content/40" />
                   <input
                     type="email"
-                    className="input input-bordered w-full pl-10 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="w-full rounded-2xl border border-base-content/10 bg-base-200/60 py-3 pl-11 pr-3 text-sm outline-none transition-all focus:border-primary/50 focus:bg-base-100 focus:ring-2 focus:ring-primary/20"
                     placeholder="you@example.com"
                     value={formData.email}
                     onChange={(e) =>
@@ -114,33 +98,28 @@ const SignUpPage = () => {
               </div>
 
               {/* PASSWORD */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Password</span>
-                </label>
-
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/40" />
-
+                  <Lock className="absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-base-content/40" />
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="input input-bordered w-full pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                    className="w-full rounded-2xl border border-base-content/10 bg-base-200/60 py-3 pl-11 pr-11 text-sm outline-none transition-all focus:border-primary/50 focus:bg-base-100 focus:ring-2 focus:ring-primary/20"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
                   />
-
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-base-content/40" />
+                      <EyeOff className="size-5" />
                     ) : (
-                      <Eye className="h-5 w-5 text-base-content/40" />
+                      <Eye className="size-5" />
                     )}
                   </button>
                 </div>
@@ -150,12 +129,12 @@ const SignUpPage = () => {
               <button
                 type="submit"
                 disabled={isSigningUp}
-                className="btn btn-primary w-full rounded-xl"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3 font-semibold text-primary-content shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-primary/40 disabled:opacity-60"
               >
                 {isSigningUp ? (
                   <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Creating account...
+                    <Loader2 className="size-5 animate-spin" />
+                    Creating account…
                   </>
                 ) : (
                   "Create Account"
@@ -164,9 +143,12 @@ const SignUpPage = () => {
             </form>
 
             {/* FOOTER */}
-            <p className="text-center text-sm text-base-content/60 mt-6">
+            <p className="mt-6 text-center text-sm text-base-content/60">
               Already have an account?{" "}
-              <Link to="/login" className="link link-primary font-medium">
+              <Link
+                to="/login"
+                className="font-semibold text-primary hover:underline"
+              >
                 Sign in
               </Link>
             </p>
@@ -175,12 +157,10 @@ const SignUpPage = () => {
       </div>
 
       {/* RIGHT - IMAGE (desktop only) */}
-      <div className="hidden lg:flex">
-        <AuthImagePattern
-          title="Stay Connected"
-          subtitle="Chat instantly, share memories, and stay close to the people who matter most."
-        />
-      </div>
+      <AuthImagePattern
+        title="Stay Connected"
+        subtitle="Chat instantly, share memories, and stay close to the people who matter most."
+      />
     </div>
   );
 };

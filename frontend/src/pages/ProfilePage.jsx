@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Camera, Mail, User, Calendar, Shield } from "lucide-react";
+import { Camera, Mail, User, Calendar, Shield, Loader2 } from "lucide-react";
 
 const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
@@ -24,34 +23,49 @@ const ProfilePage = () => {
     };
   };
 
+  const infoCards = [
+    { icon: User, label: "Full Name", value: authUser.fullName },
+    { icon: Mail, label: "Email", value: authUser.email },
+    {
+      icon: Calendar,
+      label: "Member Since",
+      value: authUser.createdAt?.split("T")[0],
+    },
+    { icon: Shield, label: "Status", value: "Active", accent: true },
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4 py-10">
-
-      {/* CARD */}
-      <div className="w-full max-w-2xl bg-base-100 shadow-xl rounded-2xl border border-base-300 overflow-hidden">
-
+    <div className="flex min-h-screen items-center justify-center px-4 py-24">
+      <div className="panel w-full max-w-2xl overflow-hidden rounded-4xl">
         {/* HEADER BANNER */}
-        <div className="h-32 bg-gradient-to-r from-primary/80 via-secondary/80 to-accent/80" />
+        <div className="relative h-36 bg-gradient-to-br from-primary via-secondary to-accent">
+          <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.35),transparent_45%)]" />
+        </div>
 
         {/* CONTENT */}
-        <div className="px-6 pb-8 -mt-16">
-
-          {/* AVATAR SECTION */}
+        <div className="-mt-16 px-6 pb-8">
+          {/* AVATAR */}
           <div className="flex flex-col items-center text-center">
-
             <div className="relative">
               <img
                 src={selectedImg || authUser.profilePic || "/avatar.png"}
-                className="w-28 h-28 rounded-full border-4 border-base-100 shadow-lg object-cover"
+                alt={authUser.fullName}
+                className="size-28 rounded-4xl border-4 border-base-100 object-cover shadow-xl"
               />
-
               <label
                 htmlFor="avatar-upload"
-                className="absolute bottom-2 right-2 bg-base-300 hover:bg-base-200 p-2 rounded-full cursor-pointer transition"
+                className={`absolute -bottom-1 -right-1 grid size-10 place-items-center rounded-2xl bg-primary text-primary-content shadow-lg transition-transform hover:scale-110 ${
+                  isUpdatingProfile
+                    ? "cursor-not-allowed opacity-70"
+                    : "cursor-pointer"
+                }`}
               >
-                <Camera className="w-4 h-4" />
+                {isUpdatingProfile ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Camera className="size-4" />
+                )}
               </label>
-
               <input
                 id="avatar-upload"
                 type="file"
@@ -62,71 +76,44 @@ const ProfilePage = () => {
               />
             </div>
 
-            <h2 className="mt-4 text-2xl font-bold">
+            <h2 className="mt-4 font-display text-2xl font-extrabold">
               {authUser.fullName}
             </h2>
-
-            <p className="text-sm text-base-content/60">
-              {authUser.email}
-            </p>
-
-            <span className="mt-3 px-3 py-1 text-xs rounded-full bg-success/20 text-success">
+            <p className="text-sm text-base-content/60">{authUser.email}</p>
+            <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-green-500/15 px-3 py-1 text-xs font-medium text-green-600 dark:text-green-400">
+              <span className="size-1.5 rounded-full bg-green-500" />
               Active
             </span>
           </div>
 
           {/* INFO GRID */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-            <div className="p-4 rounded-xl bg-base-200 border border-base-300 hover:scale-[1.02] transition">
-              <div className="flex items-center gap-2 text-sm text-base-content/60">
-                <User size={16} />
-                Full Name
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {infoCards.map((card) => (
+              <div
+                key={card.label}
+                className="rounded-3xl border border-base-content/8 bg-base-200/50 p-4 lift"
+              >
+                <div className="flex items-center gap-2 text-sm text-base-content/55">
+                  <card.icon size={16} />
+                  {card.label}
+                </div>
+                <p
+                  className={`mt-1.5 font-semibold ${
+                    card.accent ? "text-green-600 dark:text-green-400" : ""
+                  }`}
+                >
+                  {card.value}
+                </p>
               </div>
-              <p className="mt-1 font-medium">
-                {authUser.fullName}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-base-200 border border-base-300 hover:scale-[1.02] transition">
-              <div className="flex items-center gap-2 text-sm text-base-content/60">
-                <Mail size={16} />
-                Email
-              </div>
-              <p className="mt-1 font-medium">
-                {authUser.email}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-base-200 border border-base-300 hover:scale-[1.02] transition">
-              <div className="flex items-center gap-2 text-sm text-base-content/60">
-                <Calendar size={16} />
-                Member Since
-              </div>
-              <p className="mt-1 font-medium">
-                {authUser.createdAt?.split("T")[0]}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-base-200 border border-base-300 hover:scale-[1.02] transition">
-              <div className="flex items-center gap-2 text-sm text-base-content/60">
-                <Shield size={16} />
-                Status
-              </div>
-              <p className="mt-1 font-medium text-success">
-                Active
-              </p>
-            </div>
-
+            ))}
           </div>
 
           {/* BUTTON */}
           <div className="mt-8 text-center">
-            <button className="btn btn-primary w-full sm:w-auto px-8 rounded-xl">
+            <button className="rounded-2xl bg-base-content/5 px-8 py-3 font-medium text-base-content/60 transition-colors hover:bg-base-content/10">
               Edit Profile (coming soon)
             </button>
           </div>
-
         </div>
       </div>
     </div>

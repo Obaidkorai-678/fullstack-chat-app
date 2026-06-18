@@ -92,66 +92,64 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-3 sm:p-4 w-full">
-
+    <div className="glass border-t border-base-content/5 p-3 sm:p-4">
       {/* IMAGE PREVIEW */}
       {imagePreview && (
-        <div className="mb-3 flex items-center gap-2">
+        <div className="mb-3 flex items-center gap-3">
           <div className="relative">
             <img
               src={imagePreview}
-              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border"
+              className="size-20 rounded-2xl border border-base-content/10 object-cover shadow-md"
               alt="preview"
             />
-
             <button
               type="button"
               onClick={removeImage}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-base-300 rounded-full flex items-center justify-center"
+              className="absolute -right-2 -top-2 grid size-6 place-items-center rounded-full bg-base-300 text-base-content shadow-md transition-transform hover:scale-110"
+              aria-label="Remove image"
             >
-              <X className="size-3" />
+              <X className="size-3.5" />
             </button>
           </div>
+          <span className="text-xs text-base-content/50">Image ready to send</span>
         </div>
       )}
 
       {/* RECORDING UI */}
       {isRecording && (
-        <div className="mb-3 flex items-center justify-between flex-wrap gap-3">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-error/10 px-4 py-2.5">
           <div className="flex items-center gap-3">
-            <span className="text-red-500 font-semibold animate-pulse">
-              ● Recording...
+            <span className="flex items-center gap-2 font-semibold text-error">
+              <span className="size-2.5 animate-pulse rounded-full bg-error" />
+              Recording…
             </span>
-
-            <div className="flex items-end gap-1 h-8">
-              <div className="w-1 h-3 bg-red-500 rounded animate-pulse"></div>
-              <div className="w-1 h-6 bg-red-500 rounded animate-bounce"></div>
-              <div className="w-1 h-4 bg-red-500 rounded animate-pulse"></div>
-              <div className="w-1 h-8 bg-red-500 rounded animate-bounce"></div>
-              <div className="w-1 h-5 bg-red-500 rounded animate-pulse"></div>
-              <div className="w-1 h-7 bg-red-500 rounded animate-bounce"></div>
+            <div className="flex h-6 items-end gap-1">
+              <div className="w-1 animate-bounce rounded bg-error" style={{ height: "40%" }} />
+              <div className="w-1 animate-pulse rounded bg-error" style={{ height: "80%" }} />
+              <div className="w-1 animate-bounce rounded bg-error" style={{ height: "55%" }} />
+              <div className="w-1 animate-pulse rounded bg-error" style={{ height: "100%" }} />
+              <div className="w-1 animate-bounce rounded bg-error" style={{ height: "65%" }} />
             </div>
           </div>
-
           <button
             type="button"
             onClick={cancelRecording}
-            className="btn btn-sm btn-error"
+            className="rounded-xl bg-error px-3 py-1.5 text-sm font-medium text-error-content transition-transform hover:scale-105"
           >
             Cancel
           </button>
         </div>
       )}
 
-      {/* INPUT */}
+      {/* INPUT BAR */}
       <form
         onSubmit={handleSendMessage}
-        className="flex items-center gap-2 w-full"
+        className="flex items-center gap-2 rounded-3xl border border-base-content/10 bg-base-200/60 p-1.5 pl-4 shadow-sm transition-all focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/15"
       >
         <input
           type="text"
-          className="flex-1 min-w-0 input input-bordered rounded-full"
-          placeholder="Type a message..."
+          className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-base-content/40"
+          placeholder="Type a message…"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
@@ -164,35 +162,37 @@ const MessageInput = () => {
           onChange={handleImageChange}
         />
 
-        {/* BUTTONS */}
-        <div className="flex items-center gap-1 flex-shrink-0">
-
+        <div className="flex flex-shrink-0 items-center gap-1">
           <button
             type="button"
-            className="btn btn-circle btn-sm sm:btn-md flex-shrink-0"
+            className="grid size-10 place-items-center rounded-2xl text-base-content/60 transition-all hover:bg-base-content/10 hover:text-base-content"
             onClick={() => fileInputRef.current.click()}
+            aria-label="Attach image"
           >
-            <Image size={18} />
+            <Image size={19} />
           </button>
 
           <button
             type="button"
             onClick={handleVoice}
-            className={`btn btn-circle btn-sm flex-shrink-0 ${
-              isRecording ? "bg-red-500 text-white animate-pulse" : "text-zinc-400"
+            aria-label="Record voice message"
+            className={`grid size-10 place-items-center rounded-2xl transition-all ${
+              isRecording
+                ? "animate-pulse bg-error text-error-content"
+                : "text-base-content/60 hover:bg-base-content/10 hover:text-base-content"
             }`}
           >
-            <Mic size={20} />
+            <Mic size={19} />
           </button>
 
           <button
             type="submit"
-            className="btn btn-circle btn-sm w-10 h-10 min-w-10 flex-shrink-0"
             disabled={!text.trim() && !imagePreview}
+            aria-label="Send message"
+            className="grid size-10 place-items-center rounded-2xl bg-primary text-primary-content shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-primary/40 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
           >
             <Send size={18} />
           </button>
-
         </div>
       </form>
     </div>
