@@ -172,12 +172,12 @@ const MessageInput = () => {
         </button>
 
         {/* SEND */}
-        <button
-          type="submit"
-          className="btn btn-circle btn-sm"
-        >
-          <Send size={18} />
-        </button>
+<button
+  type="submit"
+  className="btn btn-circle btn-sm flex-shrink-0 w-10 h-10"
+>
+  <Send size={18} />
+</button>
       </form>
     </div>
   );
