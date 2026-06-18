@@ -1,6 +1,12 @@
 # 💬 Full Stack Real-Time Chat Application
 
 ![Preview](screenshots/preview.png)
+
+
+
+🚀 Live Demo  
+👉 https://fullstack-chat-app-production-345b.up.railway.app/
+
 A modern full-stack real-time chat application built with React, Node.js, Express, MongoDB, Socket.IO, Cloudinary, and DaisyUI.
 
 ## 🚀 Features
