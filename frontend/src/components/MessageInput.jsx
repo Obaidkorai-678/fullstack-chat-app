@@ -156,7 +156,7 @@ const MessageInput = () => {
         {/* IMAGE */}
         <button
           type="button"
-          className="btn btn-circle btn-sm sm:btn-md"
+          className="btn btn-circle hidden sm:flex"
           onClick={() => fileInputRef.current.click()}
         >
           <Image size={18} />
@@ -165,19 +165,24 @@ const MessageInput = () => {
         {/* VOICE */}
         <button
           type="button"
-          className="btn btn-circle btn-sm"
           onClick={handleVoice}
+          className={`btn btn-circle ${
+            isRecording
+              ? "bg-red-500 text-white animate-pulse"
+              : "text-zinc-400"
+          }`}
         >
-          <Mic size={18} />
+          <Mic size={20} />
         </button>
 
         {/* SEND */}
-<button
-  type="submit"
-  className="btn btn-circle btn-sm flex-shrink-0 w-10 h-10"
->
-  <Send size={18} />
-</button>
+        <button
+          type="submit"
+          className="btn btn-circle btn-sm"
+          disabled={!text.trim() && !imagePreview}
+        >
+          <Send size={18} />
+        </button>
       </form>
     </div>
   );
