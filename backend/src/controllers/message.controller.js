@@ -50,6 +50,7 @@ export const getMessages = async (req, res) => {
 };
 
 // ================= SEND MESSAGE (TEXT + IMAGE + AUDIO) =================
+// ================= SEND MESSAGE (TEXT + IMAGE + AUDIO) =================
 export const sendMessage = async (req, res) => {
   try {
     console.log("========== SEND MESSAGE ==========");
@@ -68,10 +69,22 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
+    // ================= VALIDATION =================
+    const hasText = text && text.trim() !== "";
+    const hasImage = !!req.body.image;
+    const hasAudio = !!req.file;
+
+    if (!hasText && !hasImage && !hasAudio) {
+      return res.status(400).json({
+        success: false,
+        error: "Message content required",
+      });
+    }
+
     let imageUrl = "";
     let audioUrl = "";
 
-    // ================= IMAGE (base64) =================
+    // ================= IMAGE UPLOAD =================
     if (req.body.image) {
       console.log("Uploading image...");
 
@@ -82,35 +95,35 @@ export const sendMessage = async (req, res) => {
       imageUrl = uploadResponse.secure_url;
     }
 
-    // ================= AUDIO (voice note file) =================
-if (req.file) {
-  console.log("Uploading audio...");
+    // ================= AUDIO UPLOAD =================
+    if (req.file) {
+      console.log("Uploading audio...");
 
-  const uploadResponse = await cloudinary.uploader.upload(req.file.path, {
-    resource_type: "video",
-  });
+      const uploadResponse = await cloudinary.uploader.upload(
+        req.file.path,
+        {
+          resource_type: "video",
+        }
+      );
 
-  audioUrl = uploadResponse.secure_url;
-}
+      audioUrl = uploadResponse.secure_url;
+    }
 
-    // ================= SAVE MESSAGE ================= 
-    console.log("AUDIO URL:", audioUrl);
+    // ================= SAVE MESSAGE =================
     const newMessage = new Message({
       senderId,
       receiverId,
-      text: text || "",
-      image: imageUrl || "",
-      audio: audioUrl || "",
+      text: hasText ? text : "",
+      image: imageUrl,
+      audio: audioUrl,
     });
 
     await newMessage.save();
 
     console.log("Message saved:", newMessage);
 
-    // ================= SOCKET =================
+    // ================= SOCKET EMIT =================
     const receiverSocketId = getReceiverSocketId(receiverId);
-
-    console.log("Receiver Socket:", receiverSocketId);
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
