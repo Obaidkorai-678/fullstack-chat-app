@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   BASE / TYPOGRAPHY
+   ============================================================ */
+@layer base {
+  :root {
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+
+  html,
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Hide Edge/IE password reveal button */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* ============================================================
+   PREMIUM UTILITIES (theme-aware via DaisyUI tokens)
+   ============================================================ */
+@layer components {
+  /* Frosted glass surface */
+  .glass {
+    background-color: color-mix(in oklab, hsl(var(--b1)) 70%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid color-mix(in oklab, hsl(var(--bc)) 8%, transparent);
+  }
+
+  .glass-strong {
+    background-color: color-mix(in oklab, hsl(var(--b1)) 85%, transparent);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid color-mix(in oklab, hsl(var(--bc)) 10%, transparent);
+  }
+
+  /* Soft elevated panel with 3D depth */
+  .panel {
+    background-color: hsl(var(--b1));
+    border: 1px solid color-mix(in oklab, hsl(var(--bc)) 8%, transparent);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, hsl(var(--bc)) 6%, transparent),
+      0 12px 32px -12px color-mix(in oklab, hsl(var(--bc)) 22%, transparent);
+  }
+
+  /* Lift on hover micro-interaction */
+  .lift {
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -16px color-mix(in oklab, hsl(var(--p)) 45%, transparent);
+  }
+
+  /* Gradient text accent */
+  .text-gradient {
+    background-image: linear-gradient(
+      120deg,
+      hsl(var(--p)),
+      hsl(var(--s)) 55%,
+      hsl(var(--a))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  /* Animated ambient glow blobs */
+  .glow-blob {
+    position: fixed;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ring-online {
+    box-shadow:
+      0 0 0 2px hsl(var(--b1)),
+      0 0 0 4px #22c55e,
+      0 0 12px 0 rgba(34, 197, 94, 0.55);
+  }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -30px) scale(1.08);
+  }
+}
+
+@keyframes float-slow-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-40px, 20px) scale(1.12);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 14s ease-in-out infinite;
+}
+.animate-float-slow-2 {
+  animation: float-slow-2 18s ease-in-out infinite;
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-bubble-in {
+  animation: bubble-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, hsl(var(--bc)) 22%, transparent) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, hsl(var(--bc)) 20%, transparent);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in oklab, hsl(var(--bc)) 35%, transparent);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
